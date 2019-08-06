@@ -3,6 +3,7 @@ import App from './App'
 import store from './store/index'
 import Api from './api'
 import * as utils from './utils'
+import './assets/styles/weui.wxss'
 
 Vue.config.productionTip = false
 App.mpType = 'app'

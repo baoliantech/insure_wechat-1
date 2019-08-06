@@ -1,29 +1,56 @@
 <template>
-  <div @click="clickHandle" id="home">
-
-    <div class="userinfo" @click="bindViewTap">
-      <img class="userinfo-avatar" src="/static/images/user.png" background-size="cover" />
-
-      <div class="userinfo-nickname">
-        <card :text="userInfo.nickName"></card>
+  <div id="home">
+    <view class="page">
+      <div class="swiper">
+        <swiper 
+          :indicator-dots="indicatorDots"
+          indicator-active-color="#fff"
+          :autoplay="autoplay" 
+          :interval="interval" 
+          :duration="duration">
+          <block v-for="(item, index) in imgUrls" :key="index">
+            <swiper-item>
+              <image :src="item" class="slide-image" height="150"/>
+            </swiper-item>
+          </block>
+      </swiper>
+      <!-- <slider @change="intervalChange" show-value :min="500" :max="2000"/> -->
+      <!-- <slider @change="durationChange" show-value :min="1000" :max="10000"/> -->
       </div>
-    </div>
-    <!-- <a href="/pages/counter/main" class="counter">去往Vuex示例页面</a> -->
-
+      <view class="weui-cells__title">带跳转的列表项</view>
+        <view class="weui-cells weui-cells_after-title">
+          <navigator url="/pages/logs/main" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+            <view class="weui-cell__bd">cell standard</view>
+            <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+          </navigator>
+      </view>
+      <p>测试vue双向绑定：</p>
+      <view class="section">
+        <input placeholder="请输入内容" v-model="text"/>
+      </view>
+      <p>输入的值：{{ text }}</p>
+    </view>
   </div>
 </template>
 
 <script>
 import card from '@/components/card'
 import { mapState } from 'vuex'
+import banner from '../../assets/images/banner.png'
 export default {
   name: 'home',
   data() {
     return {
-      motto: 'Hello miniprograme',
-      userInfo: {
-        nickName: 'ryan'
-      }
+      imgUrls: [
+        banner,
+        banner,
+        banner
+      ],
+      indicatorDots: true,
+      autoplay: true,
+      interval: 3000,
+      duration: 1000,
+      text: ''
     }
   },
 
@@ -43,6 +70,14 @@ export default {
     clickHandle(ev) {
       console.log('clickHandle:', ev)
       // throw {message: 'custom test'}
+    },
+    focusFunc(e) {
+    },
+    intervalChange(e) {
+      this.interaval = e.detail.value
+    },
+    durationChange(e) {
+      this.duration = e.detail.value
     }
   },
 
@@ -62,55 +97,16 @@ export default {
 }
 </script>
 
-<style scoped>
-.userinfo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.userinfo-avatar {
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
-  border-radius: 50%;
-}
-
-.userinfo-nickname {
-  color: #aaa;
-}
-
-.usermotto {
-  margin-top: 150px;
-}
-
-.form-control {
-  display: block;
-  padding: 0 12px;
-  margin-bottom: 5px;
-  border: 1px solid #ccc;
-}
-.all{
-  width:7.5rem;
-  height:1rem;
-  background-color:blue;
-}
-.all:after{
-  display:block;
-  content:'';
-  clear:both;
-}
-.left{
-  float:left;
-  width:3rem;
-  height:1rem;
-  background-color:red;
-}
-
-.right{
-  float:left;
-  width:4.5rem;
-  height:1rem;
-  background-color:green;
-}
+<style scoped lang="stylus">
+swiper
+  height 184rpx
+.page
+  padding 16px
+  h1
+    text-align left
+  .swiper
+    image
+      width 686rpx
+      height 184rpx
+      background-size cover
 </style>
